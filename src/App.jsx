@@ -10,31 +10,32 @@ import Navbar from "./components/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { Context } from "./main";
+import { Context } from "./context";
 import Login from "./Pages/Login";
+import VerifyOtp from "./Pages/VerifyOtp"
 const App = () => {
   const { isAuthenticated, setIsAuthenticated, setUser } =
     useContext(Context);
-
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/v1/user/patient/me",
-          {
-            withCredentials: true,
-          }
-        );
-        setIsAuthenticated(true);
-        setUser(response.data.user);
-      } catch (error) {
-        setIsAuthenticated(false);
-        setUser({});
-      }
-    };
-    fetchUser();
-  }, [isAuthenticated]);
+  const checkAuth = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/auth/me",
+        { withCredentials: true }
+      );
 
+      setIsAuthenticated(true);
+      setUser(res.data.data.user);
+    } catch {
+      setIsAuthenticated(false);
+      setUser(null);
+    }
+  };
+
+  checkAuth();
+}, []);
+
+ 
   return (
     <>
       <Router>
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/verifyOtp" element={<VerifyOtp/>}/>
         </Routes>
         <Footer />
         <ToastContainer position="top-center" />

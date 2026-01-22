@@ -587,3 +587,68 @@ input[type="time"]:before {
 footer .logo-img{
   width: 100%;
 }
+.otp-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #e5e5e5;
+;
+}
+
+.otp-card {
+  background-color: white;
+  padding: 30px 35px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.otp-card h2 {
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+.otp-card p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.otp-card input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  letter-spacing: 4px;
+  text-align: center;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+.otp-card input:focus {
+  border-color: #4f46e5;
+}
+
+.otp-card button {
+  width: 100%;
+  padding: 12px;
+  
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.otp-card button:hover {
+  background-color: #4338ca;
+}
+
+.otp-card button:active {
+  background-color: #3730a3;
+}

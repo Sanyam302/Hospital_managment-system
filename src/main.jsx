@@ -1,31 +1,12 @@
-import React, { createContext, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-
-export const Context = createContext({
-  isAuthenticated: false,
-});
-
-const AppWrapper = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState({});
-
-  return (
-    <Context.Provider
-      value={{
-        isAuthenticated,
-        setIsAuthenticated,
-        user,
-        setUser,
-      }}
-    >
-      <App />
-    </Context.Provider>
-  );
-};
+import { ContextProvider } from "./context.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AppWrapper />
+    <ContextProvider>
+      <App />
+    </ContextProvider>
   </React.StrictMode>
 );

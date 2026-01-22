@@ -1,18 +1,18 @@
-const nodemailer = require("nodemailer")
+import nodemailer from "nodemailer";
 
 const sendOTPEmail = async (email, otp) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
-    secure: false, // IMPORTANT
+    secure: false, // TLS uses STARTTLS
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
+      pass: process.env.EMAIL_PASS,
     },
     tls: {
-      rejectUnauthorized: false
-    }
-  })
+      rejectUnauthorized: false,
+    },
+  });
 
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
@@ -23,11 +23,11 @@ const sendOTPEmail = async (email, otp) => {
       <p>Your OTP is:</p>
       <h1>${otp}</h1>
       <p>This OTP is valid for 10 minutes.</p>
-    `
-  })
+    `,
+  });
 
-  console.log("OTP email sent successfully")
-}
+  console.log("OTP email sent successfully");
+};
 
-module.exports = sendOTPEmail
+export default sendOTPEmail;
 

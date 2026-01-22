@@ -1,11 +1,11 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
 
     email: {
@@ -13,10 +13,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       lowercase: true,
-     match: [
+      match: [
         /^\S+@\S+\.\S+$/,
-        "Please enter a valid email address"
-      ]
+        "Please enter a valid email address",
+      ],
     },
 
     password: {
@@ -24,47 +24,52 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
       match: [
-    /^(?=.*[A-Z])(?=.*\d).+$/,
-    "Password must contain at least one capital letter and one number"
-  ]
+        /^(?=.*[A-Z])(?=.*\d).+$/,
+        "Password must contain at least one capital letter and one number",
+      ],
     },
 
     gender: {
       type: String,
       enum: ["male", "female", "other"],
-      required: true
+      required: true,
     },
 
     age: {
       type: Number,
       required: true,
       min: 0,
-      max: 120
+      max: 120,
     },
 
     role: {
       type: String,
       enum: ["admin", "doctor", "patient"],
-      default: "patient"
+      default: "patient",
     },
+
     isVerified: {
-  type: Boolean,
-  default: false
-},
+      type: Boolean,
+      default: false,
+    },
 
-otp: {
-  type: String
-},
+    otp: {
+      type: String,
+    },
 
-otpExpiry: {
-  type: Date
-}
+    otpExpiry: {
+      type: Date,
+    },
 
+    refreshToken: {
+      type: String,
+    },
   },
-     
   {
-    timestamps: true
+    timestamps: true,
   }
-)
-const userModel =mongoose.model("User", userSchema)
-module.exports = userModel
+);
+
+const User = mongoose.model("User", userSchema);
+
+export default User;
