@@ -5,6 +5,7 @@ import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
 import connectDB from "./db/db.js";
+import doctorRoutes from "./routes/doctor.routes.js"
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 // routes
 app.use("/auth", authRoutes);
+app.use("/doctor",doctorRoutes);
 
 // test route
 app.post("/test", (req, res) => {

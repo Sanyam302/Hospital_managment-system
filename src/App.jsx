@@ -13,17 +13,18 @@ import axios from "axios";
 import { Context } from "./context";
 import Login from "./Pages/Login";
 import VerifyOtp from "./Pages/VerifyOtp"
+import api from "./axios"
+import FindDoctors from "./Pages/FindDoctors";
+
+
+
 const App = () => {
   const { isAuthenticated, setIsAuthenticated, setUser } =
     useContext(Context);
-  useEffect(() => {
+useEffect(() => {
   const checkAuth = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/auth/me",
-        { withCredentials: true }
-      );
-
+      const res = await api.get("/auth/me");
       setIsAuthenticated(true);
       setUser(res.data.data.user);
     } catch {
@@ -47,6 +48,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/verifyOtp" element={<VerifyOtp/>}/>
+          <Route path="/doctors" element={<FindDoctors />} />
         </Routes>
         <Footer />
         <ToastContainer position="top-center" />

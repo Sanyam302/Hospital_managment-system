@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await axios
-      .get("http://localhost:5000/auth/logout", {
+      .post("http://localhost:5000/auth/logout",{} ,{
         withCredentials: true,
       })
       .then((res) => {
@@ -43,6 +43,7 @@ const Navbar = () => {
             <Link to={"/appointment"} onClick={() => setShow(!show)}>
               Appointment
             </Link>
+            <Link to="/doctors">Find Doctors</Link>
             <Link to={"/about"} onClick={() => setShow(!show)}>
               About Us
             </Link>

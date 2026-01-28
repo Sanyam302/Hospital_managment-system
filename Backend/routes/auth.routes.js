@@ -9,8 +9,12 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import verifyJWT from "../middleware/authmiddleware.js";
+import  Doctor  from "../models/doctor_model.js";
 
 const router = express.Router();
+
+
+
 
 /* ================= TOKEN GENERATOR ================= */
 
@@ -44,7 +48,7 @@ const generateAccessAndRefreshToken = async (userId) => {
 router.post(
   "/register",
   asyncHandler(async (req, res) => {
-    const { name, email, password, gender, age } = req.body;
+    const { name, email, password, gender, age ,role} = req.body;
 
     if (!email) {
       throw new ApiError(400, "Email is required");
@@ -73,6 +77,17 @@ router.post(
       otp,
       otpExpiry,
     });
+
+    if (role === "doctor") {
+  await Doctor.create({
+    userId: user._id,
+    specialization: "General", // temporary
+    hospitalName: "Not Assigned",
+    city: "Unknown",
+    experience: 0,
+    fee: 0,
+  });
+}
 
     res
       .status(201)
@@ -221,5 +236,7 @@ router.get(
     );
   })
 );
+
+
 
 export default router;
