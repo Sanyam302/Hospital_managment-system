@@ -12,15 +12,23 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+
       try {
         await api.post("/auth/refreshToken");
-        return api(originalRequest); // retry original call
-      } catch {
-        return Promise.reject(error);
+        return api(originalRequest);
+      } catch (refreshError) {
+        try {
+          await api.post("/auth/logout");
+        } catch {}
+
+        localStorage.clear();
+        window.location.href = "/login";
+
+        return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   }
 );
-
 export default api;

@@ -2,7 +2,11 @@ import mongoose from "mongoose";
 
 const doctorSchema = new mongoose.Schema(
   {
-    userId: String,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
     name: String,
     email:String,
     age:Number,
@@ -11,6 +15,11 @@ const doctorSchema = new mongoose.Schema(
     city: String,
     experience: Number,
     fee: Number,
+    bio: String,
+    isProfileComplete: {
+  type: Boolean,
+  default: false
+}
   },
   { timestamps: true }
 );

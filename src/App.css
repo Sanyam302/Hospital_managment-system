@@ -673,3 +673,88 @@ footer .logo-img{
 .suggestions li:hover {
   background-color: #f0f0f0;
 }
+/* Full page background */
+.complete-profile-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+  padding: 20px;
+}
+
+/* Card container */
+.complete-profile-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  padding: 35px 40px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease;
+}
+
+/* Heading */
+.complete-profile-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Form layout */
+.complete-profile-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Inputs & textarea */
+.complete-profile-card input,
+.complete-profile-card textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  transition: 0.3s ease;
+  background-color: #f8fafc;
+}
+
+/* Focus effect */
+.complete-profile-card input:focus,
+.complete-profile-card textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* Textarea */
+.complete-profile-card textarea {
+  resize: none;
+  min-height: 90px;
+}
+
+/* Button */
+.complete-profile-card button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* Hover effect */
+.complete-profile-card button:hover {
+  background-color: #1d4ed8;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .complete-profile-card {
+    padding: 25px;
+  }
+}

@@ -25,7 +25,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     const accessToken = jwt.sign(
       { _id: user._id },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "15m" }
+      { expiresIn: "1500m" }
     );
 
     const refreshToken = jwt.sign(
@@ -72,7 +72,7 @@ router.post(
       password: hashedPassword,
       gender,
       age,
-      role: "patient",
+      role,
       isVerified: false,
       otp,
       otpExpiry,
@@ -102,21 +102,53 @@ router.post(
   asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
+    // 1️⃣ Validate input
+    if (!email || !password) {
+      throw new ApiError(400, "Email and password are required");
+    }
+
+    // 2️⃣ Find user (exclude password initially)
     const user = await User.findOne({ email });
-    if (!user) throw new ApiError(401, "User not found");
+    if (!user) {
+      throw new ApiError(401, "User not found");
+    }
 
+    // 3️⃣ Compare password
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw new ApiError(401, "Invalid credentials");
+    if (!isMatch) {
+      throw new ApiError(401, "Invalid credentials");
+    }
 
+    // 4️⃣ Generate tokens
     const { accessToken, refreshToken } =
       await generateAccessAndRefreshToken(user._id);
 
+    // 5️⃣ Remove password before sending response
+    const userWithoutPassword = await User.findById(user._id).select("-password");
+
+    // 6️⃣ Prepare response data
+    let responseData = {
+      user: userWithoutPassword,
+      role: user.role,
+      accessToken,
+      isProfileComplete:false
+    };
+
+    // 7️⃣ If doctor → check profile
+    if (user.role === "doctor") {
+      const doctorProfile = await Doctor.findOne({ _id: user._id });
+
+      responseData.isProfileComplete = doctorProfile.isProfileComplete;
+    }
+
+    // 8️⃣ Cookie options
     const options = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
     };
 
+    // 9️⃣ Send response
     res
       .status(200)
       .cookie("accessToken", accessToken, options)
@@ -124,7 +156,7 @@ router.post(
       .json(
         new ApiResponse(
           200,
-          { user, accessToken },
+          responseData,
           "User logged in successfully"
         )
       );

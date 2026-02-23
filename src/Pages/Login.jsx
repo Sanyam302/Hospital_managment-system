@@ -13,34 +13,47 @@ const Login = () => {
 
   const navigateTo = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      await axios
-        .post(
-          "http://localhost:5000/auth/login",
-          { email, password},
-          {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }
-        )
-        .then((res) => {
-          toast.success(res.data.message);
-          setIsAuthenticated(true);
-          navigateTo("/");
-          setEmail("");
-          setPassword("");
-          
-        });
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
+ const handleLogin = async (e) => {
+  e.preventDefault();
 
-  if (isAuthenticated) {
-    return <Navigate to={"/"} />;
+  try {
+    const res = await axios.post(
+      "http://localhost:5000/auth/login",
+      { email, password },
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    console.log("FULL RESPONSE:", res.data);
+
+    toast.success(res.data.message);
+
+    setIsAuthenticated(true);
+
+    const { role, isProfileComplete , accessToken} = res.data.data;
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("role", role);
+
+    if (role === "doctor") {
+      if (!isProfileComplete) {
+        navigateTo("/complete-profile");
+      } 
+      else {
+      navigateTo("/");
+    }
+    } 
+
+    setEmail("");
+    setPassword("");
+
+  } catch (error) {
+    console.log("ERROR RESPONSE:", error);
+    toast.error(error.response?.data?.message || "Login failed");
   }
+};
+
+  
 
   return (
     <>
