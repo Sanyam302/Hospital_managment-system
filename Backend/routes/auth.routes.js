@@ -218,21 +218,33 @@ router.post(
   "/refreshToken",
   asyncHandler(async (req, res) => {
     const incomingRefreshToken =
-      req.cookies.refreshToken || req.body.refreshToken;
+      req.cookies?.refreshToken || req.body?.refreshToken;
 
     if (!incomingRefreshToken) {
-      throw new ApiError(401, "Unauthorized request");
+      return res.status(401).json({
+        message: "Refresh token missing",
+      });
     }
 
-    const decoded = jwt.verify(
-      incomingRefreshToken,
-      process.env.JWT_SECRET_KEY
-    );
+    let decoded;
+
+    try {
+      decoded = jwt.verify(
+        incomingRefreshToken,
+        process.env.JWT_SECRET_KEY
+      );
+    } catch {
+      return res.status(401).json({
+        message: "Invalid refresh token",
+      });
+    }
 
     const user = await User.findById(decoded._id);
 
     if (!user || user.refreshToken !== incomingRefreshToken) {
-      throw new ApiError(401, "Refresh token expired or reused");
+      return res.status(401).json({
+        message: "Refresh token expired or reused",
+      });
     }
 
     const { accessToken, refreshToken } =
@@ -241,18 +253,16 @@ router.post(
     const options = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
     };
 
-    res
+    return res
       .cookie("accessToken", accessToken, options)
       .cookie("refreshToken", refreshToken, options)
-      .json(
-        new ApiResponse(
-          200,
-          { accessToken },
-          "Access token refreshed"
-        )
-      );
+      .json({
+        success: true,
+        accessToken,
+      });
   })
 );
 router.get(
