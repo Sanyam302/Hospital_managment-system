@@ -81,6 +81,9 @@ router.post(
     if (role === "doctor") {
   await Doctor.create({
     userId: user._id,
+    name: user.name,
+    email: user.email,
+    password: user.password,
     specialization: "General", // temporary
     hospitalName: "Not Assigned",
     city: "Unknown",
@@ -136,8 +139,9 @@ router.post(
 
     // 7️⃣ If doctor → check profile
     if (user.role === "doctor") {
-      const doctorProfile = await Doctor.findOne({ _id: user._id });
-
+      const doctorProfile = await Doctor.findOne({ userId: user._id });
+      console.log("Doctor Profile:", doctorProfile);
+      console.log("Doctor Profile isProfileComplete:", doctorProfile?.isProfileComplete);
       responseData.isProfileComplete = doctorProfile.isProfileComplete;
     }
 

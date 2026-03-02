@@ -16,15 +16,16 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
     token,
     process.env.JWT_SECRET_KEY
   );
-
+  console.log("Decoded:", decodedToken)
   const user = await User.findById(decodedToken._id).select(
     "-password -refreshToken"
   );
+  
+console.log("User:", user);
 
   if (!user) {
-    throw new ApiError(401, "Invalid access token");
-  }
-
+   return res.status(401).json({ message: "Unauthorized" });
+}
   req.user = user;
   next();
 });

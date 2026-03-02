@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const doctorSchema = new mongoose.Schema(
@@ -7,22 +8,34 @@ const doctorSchema = new mongoose.Schema(
       ref: "User",
       required: true
     },
-    name: String,
-    email:String,
-    age:Number,
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+
     specialization: String,
+    phone: Number,
+    experience: Number,
+    qualification: String,
+    fee: Number,
+    about: String,
     hospitalName: String,
     city: String,
-    experience: Number,
-    fee: Number,
-    bio: String,
+
+    profileImage: {
+      type: String, // image URL or file path
+    },
+
+    licenseNumber: String,
+    licenseDocument: String,
+
     isProfileComplete: {
-  type: Boolean,
-  default: false
-}
+      type: Boolean,
+      default: false
+    }
+    
   },
   { timestamps: true }
 );
-const Doctor = mongoose.model("Doctor", doctorSchema);
-export default Doctor
 
+const Doctor = mongoose.model("Doctor", doctorSchema);
+export default Doctor;

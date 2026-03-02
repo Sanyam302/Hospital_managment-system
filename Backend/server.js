@@ -6,6 +6,8 @@ import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
 import connectDB from "./db/db.js";
 import doctorRoutes from "./routes/doctor.routes.js"
+import path from "path";
+
 
 dotenv.config();
 
@@ -31,6 +33,10 @@ app.post("/test", (req, res) => {
   console.log("Body:", req.body);
   res.json({ body: req.body });
 });
+app.use(
+  "/uploads",
+  express.static(path.join(process.cwd(), "uploads"))
+);
 
 // database connection
 connectDB();
