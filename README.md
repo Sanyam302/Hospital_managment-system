@@ -1,8 +1,9 @@
-# React + Vite
+Smart i-Health System is an AI-powered healthcare management platform designed to simplify and modernize the way patients interact with healthcare services. The system integrates intelligent symptom analysis, appointment scheduling, and digital health tracking into one unified solution.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+At its core, the platform features a symptom-based diagnosis chatbot that analyzes user inputs and predicts possible medical conditions using a machine learning model. Instead of searching randomly online, users receive structured and data-driven suggestions, helping them take informed next steps.
 
-Currently, two official plugins are available:
+The system also provides seamless doctor appointment booking, enabling users to schedule consultations efficiently without manual coordination. Patients can track their medical history, monitor health metrics, and manage their records digitally through an intuitive interface.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+From a technical perspective, the platform is built with a Node.js backend, RESTful APIs, and a database-driven architecture to ensure scalability and reliability. The AI/ML component is integrated into the system to enhance predictive capabilities and improve decision-making over time.
+
+The goal of Smart i-Health System is to make healthcare more accessible, organized, and intelligent by combining automation, machine learning, and modern web technologies into a single efficient ecosystem.
